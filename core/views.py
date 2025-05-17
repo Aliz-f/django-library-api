@@ -187,7 +187,7 @@ class AuthorUpdateAPIView(APIView):
         serializer = AuthorSerializer(author, data=request.data, partial=True)
         if serializer.is_valid():
             serializer.save()
-            return Response(serializer.data)
+            return Response(serializer.data, status=200)
         return Response(serializer.errors, status=400)
 
 
@@ -203,6 +203,18 @@ class AuthorDeleteAPIView(APIView):
             return Response({'message': 'Author deleted'}, status=204)
         except Author.DoesNotExist:
             return Response({'error': 'Author not found'}, status=404)
+
+
+class AuthorListAPIView(APIView):
+    permission_classes = [IsAuthenticated]
+
+    def get(self, request):
+        if request.user.role != request.user.Role.WORKER:
+            return Response({'error': 'Only workers can delete authors.'}, status=403)
+        authors = Author.objects.all()
+        serializer = AuthorSerializer(authors, many=True)
+        return Response(serializer.data, status=200)
+
 
 # ------------------------
 # CRUD Views for Category
@@ -253,6 +265,17 @@ class CategoryDeleteAPIView(APIView):
         except Category.DoesNotExist:
             return Response({'error': 'Category not found'}, status=404)
 
+
+class CategoryListAPIView(APIView):
+    permission_classes = [IsAuthenticated]
+
+    def get(self, request):
+        if request.user.role != request.user.Role.WORKER:
+            return Response({'error': 'Only workers can delete authors.'}, status=403)
+        categories = Category.objects.all()
+        serializer = CategorySerializer(categories, many=True)
+        return Response(serializer.data, status=200)
+
 # ------------------------
 # CRUD Views for SubCategory
 # ------------------------
@@ -301,6 +324,18 @@ class SubCategoryDeleteAPIView(APIView):
             return Response({'message': 'SubCategory deleted'}, status=204)
         except SubCategory.DoesNotExist:
             return Response({'error': 'SubCategory not found'}, status=404)
+
+
+class SubCategoryListAPIView(APIView):
+    permission_classes = [IsAuthenticated]
+
+    def get(self, request):
+        if request.user.role != request.user.Role.WORKER:
+            return Response({'error': 'Only workers can delete authors.'}, status=403)
+        sub_categories = SubCategory.objects.all()
+        serializer = SubCategorySerializer(sub_categories, many=True)
+        return Response(serializer.data, status=200)
+
 
 # ------------------------
 # CRUD Views for Book
@@ -369,7 +404,7 @@ class BookListAPIView(APIView):
             books = books.filter(author__last_name__icontains=author_name)
 
         if available:
-            books = books.filter(available_copies__gt=0)
+            books = books.filter(available_copies__gt=0) # gt > / gte >= / lt < / lte <=
 
         serialized = BookSerializer(books, many=True)
         return Response(serialized.data, status=200)
@@ -430,7 +465,8 @@ class BorrowBookAPIView(APIView):
         book.available_copies -= 1
         book.save()
 
-        return Response(BorrowSerializer(borrow).data, status=201)
+        serializer = BorrowSerializer(borrow)
+        return Response(serializer.data, status=201)
 
 
 # class BorrowBookAPIView(APIView):

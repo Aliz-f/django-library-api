@@ -5,7 +5,8 @@ from .views import (WorkerSignupAPIView, MemberSignupAPIView,
                     BookListAPIView, BookDetailAPIView, AuthorCreateAPIView, AuthorUpdateAPIView, AuthorDeleteAPIView,
                     CategoryCreateAPIView, CategoryUpdateAPIView, CategoryDeleteAPIView,
                     SubCategoryCreateAPIView, SubCategoryUpdateAPIView, SubCategoryDeleteAPIView,
-                    BookCreateAPIView, BookUpdateAPIView, BookDeleteAPIView)
+                    BookCreateAPIView, BookUpdateAPIView, BookDeleteAPIView, AuthorListAPIView, CategoryListAPIView,
+                    SubCategoryListAPIView)
 
 urlpatterns = [
     path('member/signup/', MemberSignupAPIView.as_view(), name='member-signup'),
@@ -20,14 +21,17 @@ urlpatterns = [
     path('authors/create/', AuthorCreateAPIView.as_view()),
     path('authors/<int:pk>/update/', AuthorUpdateAPIView.as_view()),
     path('authors/<int:pk>/delete/', AuthorDeleteAPIView.as_view()),
+    path('authors/', AuthorListAPIView.as_view()),
 
     path('category/create/', CategoryCreateAPIView.as_view()),
     path('category/<int:pk>/update/', CategoryUpdateAPIView.as_view()),
     path('category/<int:pk>/delete/', CategoryDeleteAPIView.as_view()),
+    path('categories', CategoryListAPIView.as_view()),
 
     path('subcategory/create/', SubCategoryCreateAPIView.as_view()),
     path('subcategory/<int:pk>/update/', SubCategoryUpdateAPIView.as_view()),
     path('subcategory/<int:pk>/delete/', SubCategoryDeleteAPIView.as_view()),
+    path('subcategories', SubCategoryListAPIView.as_view()),
 
     path('book/create/', BookCreateAPIView.as_view()),
     path('book/<int:pk>/update/', BookUpdateAPIView.as_view()),

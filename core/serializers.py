@@ -45,7 +45,8 @@ class ProfileUpdateSerializer(serializers.ModelSerializer):
 class AuthorSerializer(serializers.ModelSerializer):
     class Meta:
         model = Author
-        fields = ['id', 'first_name', 'last_name', 'biography', 'date_of_birth', 'date_of_death']
+        fields = ['id', 'first_name', 'last_name',
+                  'biography', 'date_of_birth', 'date_of_death']
 
 
 class CategorySerializer(serializers.ModelSerializer):
@@ -84,7 +85,8 @@ class BorrowSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Borrow
-        fields = ['id', 'book', 'borrow_date', 'due_date', 'return_date', 'returned', 'is_overdue']
+        fields = ['id', 'book', 'borrow_date', 'due_date', 'return_date',
+                  'returned', 'is_overdue']
 
     def get_is_overdue(self, obj):
         return not obj.returned and obj.due_date < timezone.now().date()
