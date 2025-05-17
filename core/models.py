@@ -63,8 +63,8 @@ class Book(models.Model):
 
 
 class Borrow(models.Model):
-    member = models.ForeignKey(User, on_delete=models.CASCADE, limit_choices_to={'role': User.Role.MEMBER})
-    book = models.ForeignKey(Book, on_delete=models.CASCADE)
+    member = models.ForeignKey(User, on_delete=models.RESTRICT, limit_choices_to={'role': User.Role.MEMBER})
+    book = models.ForeignKey(Book, on_delete=models.RESTRICT)
     borrow_date = models.DateField(auto_now_add=True)
     due_date = models.DateField()
     return_date = models.DateField(null=True, blank=True)
