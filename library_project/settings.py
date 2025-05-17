@@ -26,8 +26,13 @@ SECRET_KEY = 'django-insecure-9fal0)kvk_j)005z9rm7y2jxk5clg=9$n-1vzbm883#p8+bp_h
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = [
+    "https://front.danacup.com"
+]
 
+# ALLOWED_HOSTS = [
+#     "*"
+# ]
 
 # Application definition
 
@@ -40,6 +45,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'rest_framework',
     'rest_framework_simplejwt',
+    "corsheaders",
     # 'django.contrib.sites',
     'core',
     'drf_yasg',
@@ -53,6 +59,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'corsheaders.middleware.CorsMiddleware',
 ]
 
 
@@ -142,3 +149,11 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 AUTH_USER_MODEL = 'core.User'
+
+
+CORS_ORIGIN_ALLOW_ALL = False
+CORS_ORIGIN_WHITELIST = (
+    "https://front.danacup.com"
+)
+
+# CORS_ORIGIN_ALLOW_ALL = True
